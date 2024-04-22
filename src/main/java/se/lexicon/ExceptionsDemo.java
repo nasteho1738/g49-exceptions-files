@@ -33,8 +33,21 @@ public class ExceptionsDemo {
 
         //readTextFile();
 
-        writeTextToFile();
+        //writeTextToFile();
 
+        BankAccount account1 = new BankAccount(100);
+        BankAccount account2 = new BankAccount(100);
+        try {
+            //account1.deposit(-200);
+            //account1.deposit(200);
+            account1.withdraw(800);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (InsufficientFoundsException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.out.println(e.description());
+        }
 
     }
 
@@ -88,7 +101,6 @@ public class ExceptionsDemo {
         return date;
     };
 
-
     public static void readTextFile() {
         // java.nio
         // https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html
@@ -120,7 +132,36 @@ public class ExceptionsDemo {
     }
 
     public static void readImageAndCopyToDestinationDirectory() {
-        // todo: read the image file and copy it into the destination directory, if the file exist in the destination directory replace it
+        //  todo: read the image file and copy it into the destination directory, if the file exist in the destination directory replace it
+        Path sourcePath = Path.of("source/image.jpg");
+        Path destinationPath = Paths.get("destination/image.jpg");
+
+        // Check if the source file exists
+        if (!Files.exists(sourcePath)) {
+            System.out.println("Source file does not exist.");
+            return;
+        }
+
+        // Check if the destination file exists and if it should be replaced
+        if (Files.exists(destinationPath)) {
+            // If the destination file exists, replace it
+            try {
+                Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Destination file replaced.");
+            } catch (IOException e) {
+                System.out.println("An error occurred while replacing the destination file.");
+                e.printStackTrace();
+            }
+        } else {
+            // If the destination file does not exist, copy the source file to the destination
+            try {
+                Files.copy(sourcePath, destinationPath);
+                System.out.println("Image copied to destination directory.");
+            } catch (IOException e) {
+                System.out.println("An error occurred while copying the image to the destination directory.");
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void writeTextToFile() {
@@ -150,7 +191,6 @@ public class ExceptionsDemo {
 
     }
 
-
     public static void writeTextToFileTryWithRecourses() {
         Path skillsFilePath = Paths.get("dir/skills.txt");
         try (
@@ -166,8 +206,6 @@ public class ExceptionsDemo {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

@@ -13,10 +13,25 @@ public class BankAccount {
 
     public void deposit(double amount) {
         // todo: needs completion
+        if (amount < 0) {
+            throw new IllegalArgumentException("Deposit must be positive.");
+        }
+        balance += amount;
+        System.out.println("Deposit successful. New Balance: " + balance);
+
     }
 
     public void withdraw(double amount) {
         // todo: needs completion
+
+        if (amount < 0) {
+            throw new IllegalArgumentException("Deposit must be positive.");
+        }
+        if (amount > balance) throw new InsufficientFoundsException("Balance is insufficient.");
+
+        balance -= amount;
+        System.out.println("Withdrawal successful. New Balance: " + balance);
+
     }
 
     public int getAccountNumber() {
